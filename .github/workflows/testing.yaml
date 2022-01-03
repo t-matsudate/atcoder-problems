@@ -1,0 +1,25 @@
+name: Testing Codes for AtCoder problems
+on: push
+jobs:
+  testing:
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+      - id: setup
+        name: Setup Rust environment
+        uses: docker://rust:1.57
+      - id: cloning
+        name: Cloning this repository
+        uses: actions/checkout@v2
+      - id: running
+        name: Running tests
+        run: |
+          cargo test
+      - id: caching
+        name: Caching dependencies and outputs
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cargo
+            target/
+          key: ${{ runner.os }}-${{ hashFiles('**/Cargo.lock') }}
