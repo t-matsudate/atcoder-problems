@@ -2,9 +2,6 @@ use std::{
     io::{
         Result as IOResult,
         stdin
-    },
-    str::{
-        Chars
     }
 };
 

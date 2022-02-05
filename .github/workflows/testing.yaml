@@ -7,7 +7,7 @@ jobs:
     steps:
       - id: setup
         name: Setup Rust environment
-        uses: docker://rust:1.57
+        uses: docker://rust:1.58.1
       - id: cloning
         name: Cloning this repository
         uses: actions/checkout@v2
