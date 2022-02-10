@@ -1,4 +1,8 @@
 use std::{
+    cmp::{
+        max,
+        min
+    },
     io::{
         Result as IOResult,
         stdin
@@ -31,10 +35,11 @@ pub fn problem_c(n: i32, mut y: i32) -> (i32, i32, i32) {
         let mut yen_5000: i32 = 0;
         let mut yen_1000: i32 = 0;
         let mut is_matched = false;
+        let boundary = max(1, min(2000, (y / 1000) + 1));
 
-        for i in 0..((y / 1000) + 1) {
-            for j in 0..((y / 1000) + 1) {
-                for k in 0..((y / 1000) + 1) {
+        for i in 0..boundary {
+            for j in 0..boundary {
+                for k in 0..boundary {
                     if 10000 * i + 5000 * j + 1000 * k == y && n == i + j + k {
                         yen_10000 = i;
                         yen_5000 = j;
@@ -80,10 +85,11 @@ mod tests {
                 let mut yen_5000: i32 = 0;
                 let mut yen_1000: i32 = 0;
                 let mut is_matched = false;
+                let boundary = max(1, min(2000, (y / 1000) + 1));
 
-                for i in 0..((y / 1000) + 1) {
-                    for j in 0..((y / 1000) + 1) {
-                        for k in 0..((y / 1000) + 1) {
+                for i in 0..boundary {
+                    for j in 0..boundary {
+                        for k in 0..boundary {
                             if 10000 * i + 5000 * j + 1000 * k == y && n == i + j + k {
                                 yen_10000 = i;
                                 yen_5000 = j;
