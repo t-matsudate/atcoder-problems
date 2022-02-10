@@ -9,16 +9,16 @@ use std::{
 };
 
 pub fn main() -> IOResult<()> {
-    let mut line_n = String::new();
-    let mut line_y = String::new();
+    let mut input = String::new();
 
-    stdin().read_line(&mut line_n)?;
-    stdin().read_line(&mut line_y)?;
+    stdin().read_line(&mut input)?;
 
-    let line_n_trimmed = line_n.trim_end();
-    let line_y_trimmed = line_y.trim_end();
-    let n = i32::from_str(line_n_trimmed).expect("'N' isn't a number!");
-    let y = i32::from_str(line_y_trimmed).expect("'Y' isn't a number!");
+    let input_trimmed = input.trim_end();
+    let mut input_split = input_trimmed.split(" ");
+    let str_n = input_split.next().expect("'N' isn't input.");
+    let str_y = input_split.next().expect("'Y' isn't input.");
+    let n = i32::from_str(str_n).expect("'N' isn't a number!");
+    let y = i32::from_str(str_y).expect("'Y' isn't a number!");
     let (yen_10000, yen_5000, yen_1000) = problem_c(n, y);
 
     println!("{} {} {}", yen_10000, yen_5000, yen_1000);
