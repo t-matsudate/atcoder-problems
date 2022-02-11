@@ -27,6 +27,21 @@ pub fn main() -> IOResult<()> {
 
 pub fn problem_c(n: i32, mut y: i32) -> (i32, i32, i32) {
     return loop {
+        let mut _y = y;
+        let yen_10000_exact = _y / 10000;
+
+        _y %= 10000;
+
+        let yen_5000_exact = _y / 5000;
+
+        _y %= 5000;
+
+        let yen_1000_exact = _y / 1000;
+
+        if y == 10000 * yen_10000_exact + 5000 * yen_5000_exact + 1000 * yen_1000_exact && n == yen_10000_exact + yen_5000_exact + yen_1000_exact {
+            break (yen_10000_exact, yen_5000_exact, yen_1000_exact);
+        }
+
         let mut yen_10000: i32 = 0;
         let mut yen_5000: i32 = 0;
         let mut yen_1000: i32 = 0;
@@ -38,7 +53,7 @@ pub fn problem_c(n: i32, mut y: i32) -> (i32, i32, i32) {
         for i in 0..boundary_10000 {
             for j in 0..boundary_5000 {
                 for k in 0..boundary_1000 {
-                    if 10000 * i + 5000 * j + 1000 * k == y && n == i + j + k {
+                    if y == 10000 * i + 5000 * j + 1000 * k && n == i + j + k {
                         yen_10000 = i;
                         yen_5000 = j;
                         yen_1000 = k;
@@ -79,6 +94,21 @@ mod tests {
             TestResult::discard()
         } else {
             let expected = loop {
+                let mut _y = y;
+                let yen_10000_exact = _y / 10000;
+
+                _y %= 10000;
+
+                let yen_5000_exact = _y / 5000;
+
+                _y %= 5000;
+
+                let yen_1000_exact = _y / 1000;
+
+                if y == 10000 * yen_10000_exact + 5000 * yen_5000_exact + 1000 && n == yen_10000_exact + yen_5000_exact + yen_1000_exact {
+                    break (yen_10000_exact, yen_5000_exact, yen_1000_exact);
+                }
+
                 let mut yen_10000: i32 = 0;
                 let mut yen_5000: i32 = 0;
                 let mut yen_1000: i32 = 0;
