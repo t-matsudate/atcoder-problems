@@ -41,7 +41,9 @@ pub fn problem_b(mut cards: Vec<i16>) -> i16 {
     let mut alice_total: i16 = 0;
     let mut bob_total: i16 = 0;
 
-    cards.sort_by(|a, b| a.cmp(b));
+    if cards.len() > 1 {
+        cards.sort_by(|a, b| a.cmp(b));
+    }
 
     while !cards.is_empty() {
         alice_total += cards.pop().unwrap_or(0);
@@ -68,7 +70,9 @@ mod tests {
                 }
             }
 
-            cards.sort_by(|a, b| a.cmp(b));
+            if cards.len() > 1 {
+                cards.sort_by(|a, b| a.cmp(b));
+            }
 
             let mut alice_total: i16 = 0;
             let mut bob_total: i16 = 0;
