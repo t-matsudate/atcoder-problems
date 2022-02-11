@@ -50,6 +50,7 @@ mod tests {
     use quickcheck::TestResult;
     use super::*;
 
+    #[quickcheck]
     fn test_problem_b(n: u32, a: u32, b: u32) -> TestResult {
         if n < 1 || n > 10000 {
             TestResult::discard()
