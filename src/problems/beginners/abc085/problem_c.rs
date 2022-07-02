@@ -25,7 +25,7 @@ pub fn main() -> IOResult<()> {
     Ok(())
 }
 
-pub fn problem_c(n: i32, mut y: i32) -> (i32, i32, i32) {
+pub fn problem_c(n: i32, y: i32) -> (i32, i32, i32) {
     return loop {
         let mut _y = y;
         let yen_10000_exact = _y / 10000;

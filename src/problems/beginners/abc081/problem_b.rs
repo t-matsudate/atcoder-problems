@@ -43,11 +43,11 @@ pub fn problem_b(mut ints: Vec<i32>) -> i32 {
 
     loop {
         for i in 0..ints.len() {
-            if ints[i] % 2 != 0 {
+            if ints[i] & 1 != 0 {
                 has_odd = true;
                 break;
             } else {
-                ints[i] /= 2;
+                ints[i] >>= 1;
             }
         }
 
@@ -78,24 +78,17 @@ mod tests {
                 }
             }
 
+            let mut current = ints.clone();
             let mut order: i32 = 0;
-            let mut has_odd = false;
-            let mut _ints = ints.clone();
 
             loop {
-                for i in 0.._ints.len() {
-                    if _ints[i] % 2 != 0 {
-                        has_odd = true;
-                        break;
-                    } else {
-                        _ints[i] /= 2;
-                    }
-                }
+                current = current.into_iter().take_while(|i| i & 1 == 0).collect();
 
-                if has_odd {
-                    break;
-                } else {
+                if current.len() == ints.len() {
                     order += 1;
+                    current = current.into_iter().map(|i| i >> 1).collect();
+                } else {
+                    break;
                 }
             }
 

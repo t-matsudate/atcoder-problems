@@ -60,7 +60,7 @@ mod tests {
     use super::*;
 
     #[quickcheck]
-    fn test_problem_b(mut cards: Vec<i16>) -> TestResult {
+    fn test_problem_b(cards: Vec<i16>) -> TestResult {
         if cards.len() < 1 || cards.len() > 100 {
             TestResult::discard()
         } else {
@@ -70,19 +70,27 @@ mod tests {
                 }
             }
 
-            if cards.len() > 1 {
-                cards.sort_by(|a, b| a.cmp(b));
+            let mut _cards = cards.clone();
+
+            if _cards.len() > 1 {
+                _cards.sort_by(|a, b| b.cmp(a));
             }
 
-            let mut alice_total: i16 = 0;
-            let mut bob_total: i16 = 0;
+            let alice_total = _cards.chunks(2).map(
+                |chunk| {
+                    let alice = chunk.get(0).unwrap_or(&0);
+                    let bob = chunk.get(1).unwrap_or(&0);
 
-            while !cards.is_empty() {
-                alice_total += cards.pop().unwrap_or(0);
-                bob_total += cards.pop().unwrap_or(0);
-            }
+                    *alice - *bob
+                }
+            ).fold(
+                0,
+                |total, point| {
+                    total + point
+                }
+            );
 
-            if (alice_total - bob_total) == problem_b(cards) {
+            if alice_total == problem_b(cards) {
                 TestResult::passed()
             } else {
                 TestResult::failed()
@@ -114,5 +122,13 @@ mod tests {
                 TestResult::failed()
             }
         }
+    }
+
+    #[test]
+    fn test_just_one_item() {
+        let mut v: Vec<i16> = Vec::new();
+
+        v.push(0);
+        v.sort_by(|a, b| a.cmp(b));
     }
 }

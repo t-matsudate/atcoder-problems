@@ -19,13 +19,13 @@ pub fn main() -> IOResult<()> {
     let n = usize::from_str(line_number_trimmed).expect("'N' isn't a number!");
     let mut mochis: Vec<u8> = Vec::new();
 
-    for i in 0..n {
+    for _ in 0..n {
         let mut line_mochi = String::new();
 
         stdin().read_line(&mut line_mochi)?;
 
         let line_mochi_trimmed = line_mochi.trim_end();
-        let mut mochi = u8::from_str(line_mochi_trimmed).expect(format!("{} isn't a number!", line_mochi_trimmed).as_str());
+        let mochi = u8::from_str(line_mochi_trimmed).expect(format!("{} isn't a number!", line_mochi_trimmed).as_str());
 
         mochis.push(mochi);
     }
@@ -40,8 +40,20 @@ pub fn main() -> IOResult<()> {
 
 pub fn problem_b(mut mochis: Vec<u8>) -> usize {
     mochis.sort_by(|a, b| a.cmp(b));
-    mochis.dedup();
-    mochis.len()
+
+    let mut total: usize = 1;
+    let mut current = mochis.pop().unwrap_or(0);
+
+    while !mochis.is_empty() {
+        let next = mochis.pop().unwrap_or(0);
+
+        if current != next {
+            total += 1;
+            current = next;
+        }
+    }
+
+    total
 }
 
 #[cfg(test)]
@@ -63,7 +75,7 @@ mod tests {
 
             let mut _mochis = mochis.clone();
 
-            _mochis.sort_by(|a, b| a.cmp(b));
+            _mochis.sort_by(|a, b| b.cmp(a));
             _mochis.dedup();
 
             if _mochis.len() == problem_b(mochis) {

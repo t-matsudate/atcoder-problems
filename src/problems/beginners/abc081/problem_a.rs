@@ -16,9 +16,9 @@ pub fn main() -> IOResult<()> {
     Ok(())
 }
 
-pub fn problem_a(bits: &str) -> usize {
+pub fn problem_a(bits: &str) -> u32 {
     bits.chars().fold(
-        0,
+        0u32,
         |count, bit| {
             if bit == '1' {
                 count + 1
@@ -31,10 +31,7 @@ pub fn problem_a(bits: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    use std::time::{
-        SystemTime,
-        SystemTimeError
-    };
+    use std::time::SystemTime;
     use quickcheck::TestResult;
     use super::*;
 
@@ -45,13 +42,9 @@ mod tests {
         } else if let Some(_) = bits.find(|c| c != '0' || c != '1') {
             TestResult::discard()
         } else {
-            let mut _bits = bits.clone();
+            let ones = i8::from_str_radix(bits.as_str(), 2).unwrap().count_ones();
 
-            _bits.retain(|c| c == '0');
-
-            let count_ones = bits.len();
-
-            if count_ones == problem_a(bits.as_str()) {
+            if ones == problem_a(bits.as_str()) {
                 TestResult::passed()
             } else {
                 TestResult::failed()
@@ -59,16 +52,25 @@ mod tests {
         }
     }
 
-    #[test]
-    fn test_execution_time() -> Result<(), SystemTimeError> {
-        let time_start = SystemTime::now();
+    #[quickcheck]
+    fn test_execution_time(bits: String) -> TestResult {
+        if bits.len() != 3 {
+            TestResult::discard()
+        } else if let Some(_) = bits.find(|c| c != '0' || c != '1') {
+            TestResult::discard()
+        } else {
+            let time_start = SystemTime::now();
 
-        problem_a(&"000");
+            problem_a(bits.as_str());
 
-        let time_end = SystemTime::now();
-        let time_diff = time_end.duration_since(time_start)?;
+            let time_end = SystemTime::now();
+            let time_diff = time_end.duration_since(time_start).unwrap();
 
-        assert!(time_diff.as_secs() <= 2, "The code of ABC081A exceeded the time limit!");
-        Ok(())
+            if time_diff.as_secs() <= 2 {
+                TestResult::passed()
+            } else {
+                TestResult::failed()
+            }
+        }
     }
 }

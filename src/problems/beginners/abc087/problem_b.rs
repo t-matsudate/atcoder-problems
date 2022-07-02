@@ -67,17 +67,20 @@ mod tests {
         } else if x % 50 != 0 {
             TestResult::discard()
         } else {
-            let mut combinations: u16 = 0;
-
-            for i in 0..(a + 1) {
-                for j in 0..(b + 1) {
-                    for k in 0..(c + 1) {
-                        if 500 * i + 100 * j + 50 * k == x {
-                            combinations += 1;
+            let combinations: u16 = (0..(a + 1)).fold(
+                0,
+                |ret, i| (0..(b + 1)).fold(
+                    ret,
+                    |ret, j| (0..(c + 1)).fold(
+                        ret,
+                        |ret, k| if 500 * i + 100 * j + 50 * k == x {
+                            ret + 1
+                        } else {
+                            ret
                         }
-                    }
-                }
-            }
+                    )
+                )
+            );
 
             if combinations == problem_b(a, b, c, x) {
                 TestResult::passed()

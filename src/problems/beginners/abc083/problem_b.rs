@@ -57,21 +57,23 @@ mod tests {
         } else if (a < 1 || a > 36) || (b < 1 || b > 36) || (a > b) {
             TestResult::discard()
         } else {
-            let mut sum_satisfied: u32 = 0;
+            let ret: u32 = (1..(n + 1)).fold(
+                0,
+                |sum_satisfied, i| {
+                    let sum_digit = format!("{}", i).chars().fold(
+                        0,
+                        |digit, j| digit + j.to_digit(10).unwrap()
+                    );
 
-            for i in 1..(n + 1) {
-                let mut sum_digit: u32 = 0;
-
-                for c in format!("{}", i).chars() {
-                    sum_digit += c.to_digit(10).unwrap();
+                    if a <= sum_digit && sum_digit <= b {
+                        sum_satisfied + i
+                    } else {
+                        sum_satisfied
+                    }
                 }
+            );
 
-                if a <= sum_digit && sum_digit <= b {
-                    sum_satisfied += i;
-                }
-            }
-
-            if sum_satisfied == problem_b(n, a, b) {
+            if ret == problem_b(n, a, b) {
                 TestResult::passed()
             } else {
                 TestResult::failed()
